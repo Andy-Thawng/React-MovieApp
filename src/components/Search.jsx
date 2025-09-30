@@ -1,10 +1,10 @@
 import React from 'react'
 
-const search = ({query, setQuery}) => {
+const Search = ({query, setQuery}) => {
   return (
     <div className="search">
         <div>
-            <img src="./search.svg" alt="search" />
+            <img src="/search.svg" alt="search" />
 
             <input 
                 type="text"
@@ -17,4 +17,4 @@ const search = ({query, setQuery}) => {
   )
 }
 
-export default search
+export default Search
