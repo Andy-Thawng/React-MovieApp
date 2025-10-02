@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './App.css'
 import Search from './components/Search.jsx'
 import Spinner from './components/Spinner.jsx'
+import Movies from './components/Movies.jsx';
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -22,12 +23,14 @@ const App = () => {
   const [error, setError] = useState(null)
   const [movies, setMovies] = useState([])
 
-  const fetchMovies = async () => {
+  const fetchMovies = async (Searchquery = '') => {
 
     setisLoading(true);
     setError(null);
     try {
-      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`
+      const endpoint = Searchquery
+        ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(Searchquery)}`
+        : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`
       const response = await fetch(endpoint, API_OPTIONS);
       const data = await response.json();
       
@@ -54,8 +57,8 @@ const App = () => {
   }
 
   useEffect(() => {
-    fetchMovies();
-  }, [])
+    fetchMovies(query);
+  }, [query])
 
   return (
     <main>
@@ -78,15 +81,12 @@ const App = () => {
             ) : (
               <ul>
                 {movies.map((movie) => (
-                  <p className='text-white' key={movie.id}>{movie.title}</p>
+                  <Movies key={movie.id} movie={movie} />
                 ))}
               </ul>
             )}
           </section>
 
-
-
-          <h1>{query}</h1>
         </div>
     </main>
   )
